@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.app.name }}
+  labels:
+    app: {{ .Values.app.name }}
+    group: {{ .Values.app.group }}
+spec:
+  replicas: {{ .Values.app.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.app.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.app.name }}
+        group: {{ .Values.app.group }}
+    spec:
+      containers:
+      - image: {{ .Values.app.container.image}}
+        imagePullPolicy: IfNotPresent
+        name: {{ .Values.app.name }}
+        ports:
+        - containerPort: {{ .Values.app.container.port}}
+          protocol: TCP
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+          - mountPath: {{ .Values.app.volume.mountPath }}
+            name: {{ .Values.app.volume.name }}
+      volumes:
+        - name: {{ .Values.app.volume.name}}
+          persistentVolumeClaim:
+            claimName: {{ .Values.app.volume.pvc.name }}
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30          
+

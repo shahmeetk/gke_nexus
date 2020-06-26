@@ -51,20 +51,21 @@ resource "google_container_node_pool" "primary_nodes" {
 
 
 
-resource "null_resource" "kubectl_apply" {
+resource "null_resource" "execution_command" {
   triggers = {
     config_contents = filemd5(var.config_path)
     k8s_yaml_contents = filemd5(var.k8s_yaml)
   }
 
+  # Authenticationg created cluster
   provisioner "local-exec" {
-
     command = "gcloud container clusters get-credentials ${google_container_cluster.primary.name} --zone ${var.zone} --project ${var.project_id}"
   }
 
+  # Helming
   provisioner "local-exec" {
-
-    command = "kubectl apply --kubeconfig ${var.config_path} -f ${var.k8s_yaml}"
+    #command = "kubectl apply --kubeconfig ${var.config_path} -f ${var.k8s_yaml}"
+    command = "cd ../helm/ && helmfile sync"
   }
 }
 
