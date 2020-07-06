@@ -49,6 +49,7 @@ List of Commands to Run
   ```
 
 
+
 # Continuous integration - a theoretical question
 We might have to modify the previously created files, for example because of a new Nexus version. We want this to automatically be deployed to a test environment after we have made the changes on Git. 
 Please describe in a few words how you would satisfy this need. 
@@ -71,3 +72,36 @@ Following is the command to run this solution fully automated.
 ```
 1. ./automated-script.sh
 ```
+
+## Helm Chart Details
+
+nexus-demo
+==========
+A Helm chart for Kubernetes
+
+Current chart version is `0.1.0`
+
+Source code can be found [here](https://github.com/shahmeetk/gke_nexus)
+
+
+
+## Chart Values
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| app.container.image | string | `"shahmeetk/nexus_demo"` |  |
+| app.container.port | int | `8081` |  |
+| app.container.protocol | string | `"TCP"` |  |
+| app.group | string | `"nexus-web"` |  |
+| app.name | string | `"nexus-web"` |  |
+| app.replicaCount | int | `1` |  |
+| app.service.nodePort | int | `32077` |  |
+| app.service.port | int | `8081` |  |
+| app.service.type | string | `"LoadBalancer"` |  |
+| app.volume.kind | string | `"PersistentVolumeClaim"` |  |
+| app.volume.mountPath | string | `"/nexus-volume"` |  |
+| app.volume.name | string | `"nexus-volume"` |  |
+| app.volume.pvc.accessMode | string | `"ReadWriteOnce"` |  |
+| app.volume.pvc.name | string | `"nexus-pvc"` |  |
+| app.volume.pvc.storage | string | `"2Gi"` |  |
+| app.volume.pvc.storageClassName | string | `"standard"` |  |
